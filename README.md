@@ -1,4 +1,4 @@
-# slang
+# CSE-Types
 
 The type layer for Cardinal-Slate. **A type is a structure**, the same substance as a value; typing and
 fit are `order`; deriving a composite type is `compose`. No schema, no slots — the spine's three ops are
@@ -10,11 +10,11 @@ the whole type checker.
 a function type as a cell) — nothing else. It sits in the structural band, right on the spine, so
 everything above it (programs, providers, an API contract) can carry and check its own type.
 
-- `slang_has(v, t)` — `v : t`, i.e. `slate_order(v, t)` is `level`. A value *has* a type by sitting level
-  with it; distinct tags don't, so a `Point` is not a `Vector` even with the same numbers.
-- `slang_fn(spare, in, out)` — a function type `in → out` (a cell: payload = in, rest = out).
-- `slang_fits(v, fn)` — `v` can be passed where `fn` expects its input (`order` level).
-- `slang_derive(spare, f, g)` — `f ∘ g`'s type: if `out(f)` and `in(g)` are `level`, `compose` into
+- `cse_type_has(v, t)` — `v : t`, i.e. `slate_order(v, t)` is `level`. A value *has* a type by sitting
+  level with it; distinct tags don't, so a `Point` is not a `Vector` even with the same numbers.
+- `cse_type_fn(spare, in, out)` — a function type `in → out` (a cell: payload = in, rest = out).
+- `cse_type_fits(v, fn)` — `v` can be passed where `fn` expects its input (`order` level).
+- `cse_type_derive(spare, f, g)` — `f ∘ g`'s type: if `out(f)` and `in(g)` are `level`, `compose` into
   `in(f) → out(g)`; else nothing.
 
 That's the whole thing. There is no type-checker to write — `order` checks membership and fit, `compose`
@@ -31,7 +31,7 @@ direction : Point → Vector  ∘  length : Vector → Scalar  =  distance : Poi
 ## Build
 
 ```
-make            gate + standalone header + Point/Vector test, then libslang.a
+make            gate + standalone header + Point/Vector test, then libcse-types.a
 make check      the gate and the test only
 ```
 

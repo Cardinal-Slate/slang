@@ -1,4 +1,4 @@
-# Makefile — slang: the type layer (a type is a structure; typing is order; deriving is compose).
+# Makefile — CSE-Types: the type layer (a type is a structure; typing is order; deriving is compose).
 #
 # Build the deps first: make -C ../CardinalSlate lib && make -C ../CSE-DSA lib
 
@@ -8,7 +8,7 @@ CC    ?= clang
 CFLAGS := -std=c11 -Iinclude -I$(DSA)/include -I$(SPINE)/include -O2 -Wall -Wextra
 
 OUT     := build
-HDRS    := include/slang.h
+HDRS    := include/cse/types.h
 SRCS    := $(wildcard src/*.c)
 OBJS    := $(patsubst src/%.c,$(OUT)/%.o,$(SRCS))
 DEPLIBS := $(DSA)/build/libcse-dsa.a
@@ -34,17 +34,17 @@ $(OUT)/standalone.stamp: $(HDRS) | $(OUT)
 $(OUT)/%.o: src/%.c $(HDRS) | $(OUT)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-lib: $(OUT)/libslang.a
-$(OUT)/libslang.a: $(OBJS) | $(OUT)
+lib: $(OUT)/libcse-types.a
+$(OUT)/libcse-types.a: $(OBJS) | $(OUT)
 	@ar rcs $@ $(OBJS)
 
-$(OUT)/test_slang: tests/slang.c $(OBJS) | $(OUT)
-	@$(CC) $(CFLAGS) tests/slang.c $(OBJS) $(DEPLIBS) -o $@
+$(OUT)/test_types: tests/types.c $(OBJS) | $(OUT)
+	@$(CC) $(CFLAGS) tests/types.c $(OBJS) $(DEPLIBS) -o $@
 
-check: $(OUT)/types.stamp $(OUT)/standalone.stamp $(OUT)/test_slang
-	@echo "== slang =="; out=$$($(OUT)/test_slang 2>&1); st=$$?; \
+check: $(OUT)/types.stamp $(OUT)/standalone.stamp $(OUT)/test_types
+	@echo "== cse-types =="; out=$$($(OUT)/test_types 2>&1); st=$$?; \
 	  if [ $$st -ne 0 ] || printf '%s' "$$out" | grep -q FAIL; then printf '%s\n' "$$out" | sed 's/^/  /'; exit 1; \
-	  else printf "  %-10s %s\n" "slang:" "$$(printf '%s' "$$out" | tail -1)"; echo "== ALL PASS =="; fi
+	  else printf "  %-10s %s\n" "types:" "$$(printf '%s' "$$out" | tail -1)"; echo "== ALL PASS =="; fi
 
 clean:
 	@rm -rf $(OUT)

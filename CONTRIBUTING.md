@@ -1,6 +1,6 @@
 # Contributing
 
-slang is a Cardinal-Slate library — opaque, slate-only. Usable on its own; the compute engine is one
+CSE-Types is a Cardinal-Slate library — opaque, slate-only. Usable on its own; the compute engine is one
 of its consumers.
 
 - **License:** MIT OR Apache-2.0. By contributing you agree your work ships under both.
